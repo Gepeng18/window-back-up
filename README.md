@@ -1,4 +1,4 @@
-# window-back-up
+# window手动备份
 
 ## 1.   修改"setting.txt"文件
 ​    第一行为备份目的文件夹
