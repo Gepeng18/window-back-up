@@ -1,0 +1,3 @@
+sync_path   #        E:\back_up
+
+paper            #      E:\OneDrive\论文
