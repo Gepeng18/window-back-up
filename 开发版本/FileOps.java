@@ -63,9 +63,6 @@ public class FileOps {
         if (files == null || files.length == 0)
             return;
         for (File file : files) {
-            // 以.开头的文件忽略
-            if (file.getName().startsWith("."))
-                continue;
             if (file.isDirectory()) {
                 getFilePathInDir(file.getAbsolutePath(), filesPath);
             } else
@@ -211,25 +208,30 @@ public class FileOps {
 
         String fileName = new File(fileAbsolutePath).getName();
 
-
-        int index = fileName.lastIndexOf(".");
-        String name = fileName.substring(0, index);
-        String fileExtName = fileName.substring(index + 1);
-
-
         String syncDir = "";
         if (fileRelativePath.contains("\\"))
-            syncDir = getSyncPath() + "\\" + group + "\\" + fileRelativePath.substring(0, fileRelativePath.lastIndexOf("\\")) + "\\" + name;
+            syncDir = getSyncPath() + "\\" + group + "\\" + fileRelativePath.substring(0, fileRelativePath.lastIndexOf("\\")) + "\\" + fileName;
         else
-            syncDir = getSyncPath() + "\\" + group + "\\" + name;
+            syncDir = getSyncPath() + "\\" + group + "\\" + fileName;
 
         // 防止有文件名是空格，会报dst_file找不到
         File syncDirFile = new File(syncDir.trim());
         if (!syncDirFile.exists())
             syncDirFile.mkdirs();
 
-
-        String newFilePath = syncDir.trim() + "\\" + name + "-" + getNow() + "." + fileExtName;
+        String name = "";
+        String fileExtName = "";
+        String newFilePath = "";
+        int index = fileName.lastIndexOf(".");
+        if (index!=-1){
+            name = fileName.substring(0,index);
+            fileExtName = fileName.substring(index + 1);
+            newFilePath = syncDir.trim() + "\\" + name + "-" + getNow() + "." + fileExtName;
+        }else{
+            name = fileName;
+            fileExtName = "";
+            newFilePath = syncDir.trim() + "\\" + name + "-" + getNow();
+        }
 
 
         copyFile(fileAbsolutePath, newFilePath);
