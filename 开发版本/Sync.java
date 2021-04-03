@@ -60,7 +60,14 @@ public class Sync {
                 ArrayList<String> remainPaths = FileOps.getRelativePaths(syncPath.getValue());
 
                 for (String relativePath : remainPaths) {
-                    String dirPath = FileOps.getSyncPath() + "\\" + syncPath.getKey() + "\\" + relativePath.substring(0, relativePath.lastIndexOf("."));
+
+                    String dirPath = "";
+                    try {
+                        dirPath = FileOps.getSyncPath() + "\\" + syncPath.getKey() + "\\" + relativePath;
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        System.out.println("---------------------------------------------------------------------------"+relativePath);
+                    }
                     if (!new File(dirPath).exists()) {
                         FileOps.syncFile(syncPath.getKey(), syncPath.getValue(), relativePath);
                         System.out.println(syncPath.getValue() + "\\" + relativePath + "   已备份");
