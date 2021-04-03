@@ -62,12 +62,7 @@ public class Sync {
                 for (String relativePath : remainPaths) {
 
                     String dirPath = "";
-                    try {
-                        dirPath = FileOps.getSyncPath() + "\\" + syncPath.getKey() + "\\" + relativePath;
-                    }catch (Exception e){
-                        e.printStackTrace();
-                        System.out.println("---------------------------------------------------------------------------"+relativePath);
-                    }
+                    dirPath = FileOps.getSyncPath() + "\\" + syncPath.getKey() + "\\" + relativePath;
                     if (!new File(dirPath).exists()) {
                         FileOps.syncFile(syncPath.getKey(), syncPath.getValue(), relativePath);
                         System.out.println(syncPath.getValue() + "\\" + relativePath + "   已备份");
